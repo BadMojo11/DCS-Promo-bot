@@ -7,7 +7,7 @@ function onEdit(event){
     var col_id_pilot =      "B";
     var col_id_status =     "C";
     var col_id_rank =       "E";
-    var col_id_next_rank =  "F":
+    var col_id_next_rank =  "F";
 
     var sheet_name = event.range.getSheet().getName();
     var row_id = event.range.getRow();
