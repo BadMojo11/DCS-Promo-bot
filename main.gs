@@ -21,7 +21,7 @@ function onEdit(event){
     if (status == "Eligible" && sheet_name == "Attendance"){ 
 
         items.push({
-            "name": rank + " " + pilot + ", you are now eligible for promotion!  Please schedule your checkride if you have not already done so.",
+            "name": rank + " " + pilot + ", \n\nYou are now eligible for promotion!  Please schedule your checkride if you have not already done so.",
             "value": "Source: VFA-45 Promotion Chart \nEligible Rank: " + next_rank + "\nStatus: "+ status,
             "inline": false
             });
