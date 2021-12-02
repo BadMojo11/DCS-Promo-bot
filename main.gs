@@ -1,52 +1,57 @@
-var POST_URL = "WEBHOOKURL"
+//replace <WEHBOOKURL> to your discord bot webhook
+var POST_URL = "<WEBHOOKURL>"
 
 function onEdit(event){
-
-  var sheet_name = event.range.getSheet().getName();
-  var rangeNotation = event.range.getA1Notation();
-  var row_id = event.range.getRow();
-  var pilot = SpreadsheetApp.getActiveSheet().getRange("B" + row_id).getValue();
-  var status = SpreadsheetApp.getActiveSheet().getRange("C" + row_id).getValue();
-  //var checker = SpreadsheetApp.getActiveSheet().getRange("E" + row_id)
-  var items = [];
-  
-  if (status == "Eligible" && sheet_name == "Attendance"){ 
-
-      //checker.setValue(1);
     
-     items.push({
-        "name": pilot + ", you are now eligible for promotion!  Please schedule your checkride if you have not already done so.",
-        "value": "Source: VFA-45 Promotion Chart \nEligible Rank: " + rangeNotation + "\nStatus: "+ status,
-        "inline": false
-    });
+    //set these values to the column containing data in your spreadsheet
+    var col_id_pilot =  "B";
+    var col_id_status = "C";
+    var col_id_rank =   "E";
+    var col_id_next_rank = "F":
 
-    //fetch date+time
-    var date = Utilities.formatDate(new Date(), SpreadsheetApp.getActive().getSpreadsheetTimeZone(), "EEE, d MMM yyyy HH:mm:ss Z")
+    var sheet_name = event.range.getSheet().getName();
+    var row_id = event.range.getRow();
+    var pilot = SpreadsheetApp.getActiveSheet().getRange(col_id_pilot + row_id).getValue();
+    var status = SpreadsheetApp.getActiveSheet().getRange(col_id_status + row_id).getValue();
+    var rank = SpreadsheetApp.getActiveSheet().getRange(col_id_rank + row_id).getValue();
+    var items = [];
+  
+    //change "Attendance" to appropriate sheet for your spreadsheet
+    if (status == "Eligible" && sheet_name == "Attendance"){ 
 
-    //formatting and stylizing of discord message
-    var options = {
-        "method": "post",
-        "headers": {
-            "Content-Type": "application/json",
-        },
-        "payload": JSON.stringify({
-            "content": "‌",
-            "embeds": [{
-                "title": "NAVADMIN",
-                "color": 33023,
-                "fields": items,
-                "footer": {
-                    "text": "Timestamp (UTC): "+date
-                }
-            }]
-        })
-    };
+        items.push({
+            "name": pilot + ", you are now eligible for promotion!  Please schedule your checkride if you have not already done so.",
+            "value": "Source: VFA-45 Promotion Chart \nEligible Rank: " + next_rank + "\nStatus: "+ status,
+            "inline": false
+            });
 
-    UrlFetchApp.fetch(POST_URL, options);
+            //fetch date+time
+            var date = Utilities.formatDate(new Date(), SpreadsheetApp.getActive().getSpreadsheetTimeZone(), "EEE, d MMM yyyy HH:mm:ss Z")
 
-  } 
-  else{
-    return; 
-  } 
+            //formatting and stylizing of discord message
+            var options = {
+                "method": "post",
+                "headers": {
+                "Content-Type": "application/json",
+                },
+                "payload": JSON.stringify({
+                "content": "‌",
+                "embeds": [{
+                    "title": "NAVADMIN",
+                    "color": 33023,
+                    "fields": items,
+                    "footer": {
+                        "text": "Timestamp (UTC): "+date
+                        }
+                    }]
+                })
+            };
+
+            UrlFetchApp.fetch(POST_URL, options);
+
+        } 
+    else{
+        return; 
+        } 
 
 }
